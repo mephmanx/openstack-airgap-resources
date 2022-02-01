@@ -23,30 +23,21 @@ rm -rf /etc/yum.repos.d/CentOS-Messaging-rabbitmq.repo
 
 yum install -y openstack-kolla
 #build images locally and get list of rpms that need to be cached.
-echo "build beginning..."
 kolla-build -t binary --openstack-release wallaby --tag wallaby --registry rpm_repo --skip-existing rpm_repo barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openstack-base openvswitch  placement qdrouterd rabbitmq redis  swift telegraf trove
-echo "build complete..."
 
-echo "getting rpms from images..."
-for i in `docker images |grep rpm_repo |awk '{print $3}'`;do docker run --rm -u root -v /tmp:/tmp -v /var/run/docker.sock:/var/run/docker.sock  $i bash -c "rpm -qa >>/tmp/all_rpms_w.txt";done
-echo "getting rpms fromimages complete..."
-
+for i in `docker images |grep rpm_repo |awk '{print $3}'`;do docker run --rm -u root -v /tmp:/tmp -v /var/run/docker.sock:/var/run/docker.sock -ti $i bash -c "rpm -qa >>/tmp/all_rpms_w.txt";done
 #add openstack kolla rpms to cache repo
-echo "adding initial packages..."
 for i in $openstack_kolla_pkgs;do echo $i >>/tmp/all_rpms_w.txt;done
-echo "adding initial packages complete
-..."
+
 cat /tmp/all_rpms_w.txt |sort |sort -u >/tmp/w_rpm_list.txt
 
-echo "export base_rpm file....."
-docker run --rm -u root -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/:/tmp/  rpm_repo/kolla/centos-binary-base:wallaby bash -c "rpm -qa >/tmp/base_rpm.txt"
-echo "export complete..."
+docker run --rm -u root -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/:/tmp/ -ti rpm_repo/kolla/centos-binary-base:wallaby bash -c "rpm -qa >/tmp/base_rpm.txt"
 
-cat w_rpm_list.txt base_rpm.txt |sort |uniq -u >to_be_download_w.txt
+cat /tmp/w_rpm_list.txt /tmp/base_rpm.txt |sort |uniq -u >to_be_download_w.txt
 
 mkdir -p /tmp/kolla_wallaby
 
-docker run -u root -v /tmp/:/tmp/ --rm -ti localhost/rpm_repo/kolla/centos-binary-base:wallaby -v /var/run/docker.sock:/var/run/docker.sock bash -c "/tmp/download_rpm.sh"
+docker run -u root -v /tmp/:/tmp/ --rm -ti rpm_repo/kolla/centos-binary-base:wallaby -v /var/run/docker.sock:/var/run/docker.sock bash -c "download_rpms.sh"
 #create local rpm repo
 createrepo /tmp/kolla_wallaby/
 cd /tmp/kolla_wallaby && repo2module -s stable  . modules.yaml && modifyrepo_c --mdtype=modules modules.yaml repodata/
