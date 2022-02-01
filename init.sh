@@ -45,7 +45,7 @@ cd /tmp/; tar czvf /tmp/kolla_w_rpm_repo.tar.gz ./kolla_wallaby/
 echo "kolla rpm cache repo is built at /tmp/kolla_w_rpm_repo.tar.gz"
 
 #clean docker images
-for i in `docker images |grep rpm_repo|awk '{print $3}'`;do docker rmi $i;done
+for i in `docker images |grep rpm_repo|awk '{print $3}'`;do docker rmi -f $i;done
 
 if [ -f /Dockerfile.j2 ];then
    cp /Dockerfile.j2 /usr/share/kolla/docker/base/
