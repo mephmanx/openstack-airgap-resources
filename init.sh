@@ -12,6 +12,7 @@ rm -rf /etc/yum.repos.d/CentOS-NFV-OpenvSwitch.repo
 rm -rf /etc/yum.repos.d/CentOS-OpenStack-wallaby.repo
 
 yum install -y modulemd-tools yum-utils epel-release
+yum install -y python3
 
 # install kolla wallaby
 rm -rf /tmp/all_rpms_w.txt
@@ -24,7 +25,6 @@ yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce
 yum install -y docker-ce docker-ce-cli containerd.io
 
 yum install -y centos-release-openstack-wallaby
-yum install -y python3
 
 
 python3 -m pip install kolla
