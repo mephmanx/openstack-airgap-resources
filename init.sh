@@ -5,6 +5,12 @@
 echo "starting...."
 openstack_kolla_pkgs="openstack-kolla git-core less libedit openssh openssh-clients python-oslo-i18n-lang python3-GitPython python3-babel python3-debtcollector python3-docker python3-funcsigs python3-gitdb python3-importlib-metadata python3-jinja2  python3-markupsafe  python3-netaddr python3-oslo-config python3-oslo-i18n python3-pbr  python3-pytz python3-rfc3986 python3-smmap python3-stevedore python3-websocket-client python3-wrapt python3-zipp"
 #install repo build tools
+rm -rf /etc/yum.repos.d/CentOS-Ceph-Nautilus.repo
+rm -rf /etc/yum.repos.d/CentOS-Messaging-rabbitmq.repo
+rm -rf /etc/yum.repos.d/CentOS-Advanced-Virtualization.repo
+rm -rf /etc/yum.repos.d/CentOS-NFV-OpenvSwitch.repo
+rm -rf /etc/yum.repos.d/CentOS-OpenStack-wallaby.repo
+
 yum install -y modulemd-tools yum-utils epel-release
 
 # install kolla wallaby
@@ -19,8 +25,7 @@ yum install -y docker-ce docker-ce-cli containerd.io
 
 yum install -y centos-release-openstack-wallaby
 yum install -y python3
-rm -rf /etc/yum.repos.d/CentOS-Ceph-Nautilus.repo
-rm -rf /etc/yum.repos.d/CentOS-Messaging-rabbitmq.repo
+
 
 python3 -m pip install kolla
 #yum remove centos-release-openstack-wallaby openstack-kolla
