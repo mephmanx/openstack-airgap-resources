@@ -21,9 +21,10 @@ yum install -y centos-release-openstack-wallaby
 rm -rf /etc/yum.repos.d/CentOS-Ceph-Nautilus.repo
 rm -rf /etc/yum.repos.d/CentOS-Messaging-rabbitmq.repo
 
-yum remove centos-release-openstack-wallaby openstack-kolla
-yum makecache;yum install centos-release-openstack-wallaby
-yum install openstack-kolla
+python3 -m pip install kolla
+#yum remove centos-release-openstack-wallaby openstack-kolla
+#yum makecache;yum install centos-release-openstack-wallaby
+#yum install openstack-kolla
 #build images locally and get list of rpms that need to be cached.
 kolla-build -t binary --openstack-release wallaby --tag wallaby --registry rpm_repo --skip-existing rpm_repo barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openstack-base openvswitch  placement qdrouterd rabbitmq redis  swift telegraf trove
 
