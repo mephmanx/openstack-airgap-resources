@@ -18,6 +18,7 @@ yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce
 yum install -y docker-ce docker-ce-cli containerd.io
 
 yum install -y centos-release-openstack-wallaby
+yum install -y python3
 rm -rf /etc/yum.repos.d/CentOS-Ceph-Nautilus.repo
 rm -rf /etc/yum.repos.d/CentOS-Messaging-rabbitmq.repo
 
