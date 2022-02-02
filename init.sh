@@ -5,7 +5,7 @@
 echo "starting...."
 openstack_kolla_pkgs="openstack-kolla git-core less libedit openssh openssh-clients python-oslo-i18n-lang python3-GitPython python3-babel python3-debtcollector python3-docker python3-funcsigs python3-gitdb python3-importlib-metadata python3-jinja2  python3-markupsafe  python3-netaddr python3-oslo-config python3-oslo-i18n python3-pbr  python3-pytz python3-rfc3986 python3-smmap python3-stevedore python3-websocket-client python3-wrapt python3-zipp"
 #install repo build tools
-yum install -y modulemd-tools yum-utils
+yum install -y modulemd-tools yum-utils epel-release
 
 # install kolla wallaby
 rm -rf /tmp/all_rpms_w.txt
@@ -21,7 +21,9 @@ yum install -y centos-release-openstack-wallaby
 rm -rf /etc/yum.repos.d/CentOS-Ceph-Nautilus.repo
 rm -rf /etc/yum.repos.d/CentOS-Messaging-rabbitmq.repo
 
-yum install -y openstack-kolla
+yum remove centos-release-openstack-wallaby openstack-kolla
+yum makecache;yum install centos-release-openstack-wallaby
+yum install openstack-kolla
 #build images locally and get list of rpms that need to be cached.
 kolla-build -t binary --openstack-release wallaby --tag wallaby --registry rpm_repo --skip-existing rpm_repo barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openstack-base openvswitch  placement qdrouterd rabbitmq redis  swift telegraf trove
 
@@ -33,7 +35,7 @@ cat /tmp/all_rpms_w.txt |sort |sort -u >/tmp/w_rpm_list.txt
 
 docker run --rm -u root -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/:/tmp/ -ti rpm_repo/kolla/centos-binary-base:wallaby bash -c "rpm -qa >/tmp/base_rpm.txt"
 
-cat /tmp/w_rpm_list.txt /tmp/base_rpm.txt |sort |uniq -u >to_be_download_w.txt
+cat /tmp/w_rpm_list.txt /tmp/base_rpm.txt |sort |uniq -u >/tmp/to_be_download_w.txt
 
 mkdir -p /tmp/kolla_wallaby
 
