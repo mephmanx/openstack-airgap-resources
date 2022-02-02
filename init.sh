@@ -20,7 +20,7 @@ rm -rf /tmp/base_rpm.txt
 rm -rf /tmp/kolla_wallaby/
 rm -rf /tmp/w_rpm_list.txt
 
-yum install -y yum-utils
+yum install -y yum-utils git
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 yum install -y docker-ce docker-ce-cli containerd.io
 
