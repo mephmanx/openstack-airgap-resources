@@ -1,10 +1,10 @@
 #!/bin/bash
 
-rm -rf /etc/yum.repos.d/CentOS-Ceph-Nautilus.repo
-rm -rf /etc/yum.repos.d/CentOS-Messaging-rabbitmq.repo
-rm -rf /etc/yum.repos.d/CentOS-Advanced-Virtualization.repo
-rm -rf /etc/yum.repos.d/CentOS-NFV-OpenvSwitch.repo
-rm -rf /etc/yum.repos.d/CentOS-OpenStack-wallaby.repo
+IFS=$'\n'
+for repo in $(ls /etc/yum.repos.d);
+do
+  sed -e "s/#baseurl/baseurl/" -e "s/mirrorlist/#mirrorlist/" -e "s/mirror.*.org/vault.centos.org/" -i $repo
+done
 
 yum install -y modulemd-tools yum-utils epel-release
 yum install -y python3
