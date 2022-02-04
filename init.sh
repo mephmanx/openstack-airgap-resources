@@ -1,5 +1,11 @@
 #!/bin/bash
 
+rm -rf /etc/yum.repos.d/CentOS-Ceph-Nautilus.repo
+rm -rf /etc/yum.repos.d/CentOS-Messaging-rabbitmq.repo
+rm -rf /etc/yum.repos.d/CentOS-Advanced-Virtualization.repo
+rm -rf /etc/yum.repos.d/CentOS-NFV-OpenvSwitch.repo
+rm -rf /etc/yum.repos.d/CentOS-OpenStack-wallaby.repo
+
 if [ -f "/root/to_be_download_w.txt" ];then
    echo "to_be_download_w.txt file exists, will use it to download rpms and skip container building step"
    echo "rpm file name number in to_be_download_w.txt is "`cat /root/to_be_download_w.txt|wc -l`
