@@ -3,7 +3,7 @@
 IFS=$'\n'
 for repo in $(ls /etc/yum.repos.d);
 do
-  sed -e "s/#baseurl/baseurl/" -e "s/mirrorlist/#mirrorlist/" -e "s/mirror.*.org/vault.centos.org/" -i $repo
+  sed -e "s/#baseurl/baseurl/" -e "s/mirrorlist/#mirrorlist/" -e "s/mirror.*.org/vault.centos.org/" -i /etc/yum.repos.d/$repo
 done
 
 yum install -y modulemd-tools yum-utils epel-release
