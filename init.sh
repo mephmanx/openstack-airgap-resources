@@ -10,8 +10,8 @@ yum install -y modulemd-tools yum-utils epel-release
 yum install -y python3 git
 
 yum install -y yum-utils
-yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-yum install -y docker-ce docker-ce-cli containerd.io
+#yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+#yum install -y docker-ce docker-ce-cli containerd.io
 
 if [ -f "/root/to_be_download_w.txt" ];then
    echo "to_be_download_w.txt file exists, will use it to download rpms and skip container building step"
