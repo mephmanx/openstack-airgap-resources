@@ -1,4 +1,4 @@
-FROM centos:latest
+FROM alpine:latest
 MAINTAINER mephmanx@gmail.com
 COPY init.sh /root
 RUN chmod 777 /root/init.sh
