@@ -37,6 +37,9 @@ python3 -m pip install kolla
 #yum install -y centos-release-openstack-wallaby && yum makecache
 #yum install -y openstack-kolla
 
+ls -al /usr/local
+ls -al /usr/share
+
 #fix centos 8 ceph issue
 sed -e '447s!^$!RUN sed -e "s/#baseurl/baseurl/" -e "s/mirrorlist/#mirrorlist/" -e "s/mirror.*.org/vault.centos.org/" -i /etc/yum.repos.d/CentOS-Ceph-Nautilus.repo!' -i /usr/share/kolla/docker/base/Dockerfile.j2
 
