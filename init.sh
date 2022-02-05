@@ -5,7 +5,7 @@ for repo in $(ls /etc/yum.repos.d);
 do
   sed -e "s/#baseurl/baseurl/" -e "s/mirrorlist/#mirrorlist/" -e "s/mirror.*.org/vault.centos.org/" -i /etc/yum.repos.d/$repo
 done
-
+ls -al /var/run/docker.*
 yum install -y modulemd-tools yum-utils epel-release
 yum install -y python3 git curl
 curl --unix-socket /var/run/docker.sock http://localhost/version
