@@ -37,7 +37,7 @@ python3 -m pip install kolla
 #yum install -y centos-release-openstack-wallaby && yum makecache
 #yum install -y openstack-kolla
 
-ls -al /usr/local
+ls -al /usr/local/share/kolla
 ls -al /usr/share
 
 #fix centos 8 ceph issue
