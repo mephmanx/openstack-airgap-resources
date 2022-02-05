@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM tgagor/centos-stream
 MAINTAINER mephmanx@gmail.com
 COPY init.sh /root
 RUN chmod 777 /root/init.sh
