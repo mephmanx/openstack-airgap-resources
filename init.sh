@@ -7,7 +7,7 @@ do
 done
 
 yum install -y modulemd-tools yum-utils epel-release
-yum install -y python3
+yum install -y python3 git
 
 yum install -y yum-utils
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
@@ -33,7 +33,7 @@ openstack_kolla_pkgs="openstack-kolla git-core less libedit openssh openssh-clie
 yum install -y modulemd-tools yum-utils
 
 # install kolla wallaby
-python3 -m pip install git kolla
+python3 -m pip install kolla
 #yum install -y centos-release-openstack-wallaby && yum makecache
 #yum install -y openstack-kolla
 
