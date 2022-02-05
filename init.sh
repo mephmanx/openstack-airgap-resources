@@ -18,7 +18,7 @@ if [ -f "/root/to_be_download_w.txt" ];then
    echo "rpm file name number in to_be_download_w.txt is "`cat /root/to_be_download_w.txt|wc -l`
    mkdir -p /root/kolla_wallaby
 
-   docker run -u root -v /root/:/root/ -v /var/run/docker.sock:/var/run/docker.sock --rm -ti localhost/rpm_repo/kolla/centos-binary-base:wallaby bash -c "/root/download_rpm.sh"
+   docker run -u root -v /root/:/root/ -v /var/run/docker.sock:/var/run/docker.sock --rm -ti rpm_repo/kolla/centos-binary-base:wallaby bash -c "/root/download_rpm.sh"
    #create local rpm repo
    createrepo /root/kolla_wallaby/
    cd /root/kolla_wallaby && repo2module -s stable  . modules.yaml && modifyrepo_c --mdtype=modules modules.yaml repodata/
@@ -37,14 +37,11 @@ python3 -m pip install kolla
 #yum install -y centos-release-openstack-wallaby && yum makecache
 #yum install -y openstack-kolla
 
-ls -al /usr/local/share/kolla
-ls -al /usr/share
-
 #fix centos 8 ceph issue
-sed -e '447s!^$!RUN sed -e "s/#baseurl/baseurl/" -e "s/mirrorlist/#mirrorlist/" -e "s/mirror.*.org/vault.centos.org/" -i /etc/yum.repos.d/CentOS-Ceph-Nautilus.repo!' -i /usr/share/kolla/docker/base/Dockerfile.j2
+sed -e '447s!^$!RUN sed -e "s/#baseurl/baseurl/" -e "s/mirrorlist/#mirrorlist/" -e "s/mirror.*.org/vault.centos.org/" -i /etc/yum.repos.d/CentOS-Ceph-Nautilus.repo!' -i /usr/local/share/kolla/docker/base/Dockerfile.j2
 
 #fix centos 8 rpm install issue on openstack-base image
-sed -i "s/'python3-sqlalchemy-collectd',//" /usr/share/kolla/docker/openstack-base/Dockerfile.j2
+sed -i "s/'python3-sqlalchemy-collectd',//" /usr/local/share/kolla/docker/openstack-base/Dockerfile.j2
 
 #build images locally and get list of rpms that need to be cached.
 kolla-build --skip-existing -t binary --openstack-release wallaby --tag wallaby --registry rpm_repo barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openstack-base openvswitch  placement qdrouterd rabbitmq redis  swift telegraf trove
