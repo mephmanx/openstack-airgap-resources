@@ -8,11 +8,12 @@ done
 
 yum install -y modulemd-tools yum-utils epel-release
 yum install -y python3 git curl
+curl --unix-socket /var/run/docker.sock http://localhost/version
 curl -sSL https://get.docker.com/ | sh
 yum install -y yum-utils
 #yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 #yum install -y docker-ce docker-ce-cli containerd.io
-
+curl --unix-socket /var/run/docker.sock http://localhost/version
 if [ -f "/root/to_be_download_w.txt" ];then
    echo "to_be_download_w.txt file exists, will use it to download rpms and skip container building step"
    echo "rpm file name number in to_be_download_w.txt is "`cat /root/to_be_download_w.txt|wc -l`
