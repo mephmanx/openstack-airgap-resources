@@ -33,7 +33,7 @@ openstack_kolla_pkgs="openstack-kolla git-core less libedit openssh openssh-clie
 yum install -y modulemd-tools yum-utils
 
 # install kolla wallaby
-python3 -m pip install kolla
+python3 -m pip install git kolla
 #yum install -y centos-release-openstack-wallaby && yum makecache
 #yum install -y openstack-kolla
 
