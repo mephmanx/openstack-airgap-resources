@@ -6,8 +6,8 @@
 #  sed -e "s/#baseurl/baseurl/" -e "s/mirrorlist/#mirrorlist/" -e "s/mirror.*.org/vault.centos.org/" -i /etc/yum.repos.d/$repo
 #done
 
-yum install -y modulemd-tools yum-utils epel-release
-yum install -y python3 git curl
+#yum install -y modulemd-tools yum-utils epel-release python3 git
+yum install -y curl
 #curl --unix-socket /var/run/docker.sock http://localhost/version
 curl -sSL https://get.docker.com/ | sh
 yum install -y yum-utils
