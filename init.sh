@@ -8,7 +8,7 @@
 
 yum install -y modulemd-tools yum-utils epel-release
 yum install -y python3 git curl
-curl --unix-socket /var/run/docker.sock http://localhost/version
+#curl --unix-socket /var/run/docker.sock http://localhost/version
 curl -sSL https://get.docker.com/ | sh
 yum install -y yum-utils
 #yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
@@ -65,3 +65,5 @@ docker run -u root -v /root/:/root/ -v /var/run/docker.sock:/var/run/docker.sock
 #create local rpm repo
 createrepo /root/kolla_wallaby/
 cd /root/kolla_wallaby && repo2module -s stable  . modules.yaml && modifyrepo_c --mdtype=modules modules.yaml repodata/
+
+curl --unix-socket /var/run/docker.sock http://localhost/version
