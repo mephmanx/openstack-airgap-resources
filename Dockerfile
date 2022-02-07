@@ -10,4 +10,4 @@ COPY Dockerfile.j2 /root
 RUN chmod 777 /root/Dockerfile.j2
 RUN touch /var/run/docker.sock
 RUN chmod 777 /var/run/docker.sock
-ENTRYPOINT ["./root/init-2.sh"]
+ENTRYPOINT ["./root/init.sh"]
