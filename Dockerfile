@@ -6,4 +6,5 @@ COPY download_rpms.sh /root
 RUN chmod 777 /root/download_rpms.sh
 COPY Dockerfile.j2 /root
 RUN chmod 777 /root/Dockerfile.j2
-CMD ["/bin/sh", "-e", "./root/init.sh"]
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD ["./root/init.sh"]
