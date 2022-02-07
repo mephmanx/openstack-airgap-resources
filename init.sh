@@ -61,7 +61,7 @@ cat w_rpm_list.txt base_rpm.txt |sort |uniq -u >to_be_download_w.txt
 
 mkdir -p /root/kolla_wallaby
 
-docker run -u root -v /root/:/root/ -v /var/run/docker.sock:/var/run/docker.sock --rm -ti localhost/rpm_repo/kolla/centos-binary-base:wallaby bash -c "/root/download_rpm.sh"
+docker run -u root -v /root/:/root/ -v /var/run/docker.sock:/var/run/docker.sock --rm -ti rpm_repo/kolla/centos-binary-base:wallaby bash -c "/root/download_rpm.sh"
 #create local rpm repo
 createrepo /root/kolla_wallaby/
 cd /root/kolla_wallaby && repo2module -s stable  . modules.yaml && modifyrepo_c --mdtype=modules modules.yaml repodata/
