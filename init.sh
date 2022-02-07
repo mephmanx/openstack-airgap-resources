@@ -65,5 +65,3 @@ docker run -u root -v /root/:/root/ -v /var/run/docker.sock:/var/run/docker.sock
 #create local rpm repo
 createrepo /root/kolla_wallaby/
 cd /root/kolla_wallaby && repo2module -s stable  . modules.yaml && modifyrepo_c --mdtype=modules modules.yaml repodata/
-
-curl --unix-socket /var/run/docker.sock http://localhost/version
