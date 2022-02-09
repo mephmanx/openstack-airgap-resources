@@ -50,8 +50,7 @@ kolla-build --skip-existing -t binary --openstack-release wallaby --tag wallaby 
 rm -f all_rpms_w.txt w_rpm_list.txt base_rpm.txt to_be_download_w.txt
 
 for i in `docker images |grep rpm_repo|grep -v centos-binary-base |awk '{print $3}'`; do
-  echo $i
-#  docker run --rm -u root -v /root:/root -v /var/run/docker.sock:/var/run/docker.sock -ti $i bash -c "rpm -qa >>/root/all_rpms_w.txt";
+  docker run --rm -u root -v /root:/root -v /var/run/docker.sock:/var/run/docker.sock  $i bash -c "rpm -qa >>/root/all_rpms_w.txt";
 done
 #add openstack kolla rpms to cache repo
 #for i in $openstack_kolla_pkgs;do echo $i >>/root/all_rpms_w.txt;done
