@@ -72,7 +72,7 @@ echo "kolla rpm cache repo is built at /root/kolla_w_rpm_repo.tar.gz"
 #clean docker images
 #for i in `docker images |grep rpm_repo|awk '{print $3}'`;do docker rmi $i;done
 
-if [ -f /tmp/Dockerfile.j2 ];then
+if [ -f /root/Dockerfile.j2 ];then
    cp /root/Dockerfile.j2 /usr/local/share/kolla/docker/base/
 else
   echo "no centos-binary-base dockerfile in /tmp to copy"
