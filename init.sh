@@ -66,3 +66,21 @@ docker run -u root -v /root/:/root/ -v /var/run/docker.sock:/var/run/docker.sock
 #create local rpm repo
 createrepo /root/kolla_wallaby/
 cd /root/kolla_wallaby && repo2module -s stable  . modules.yaml && modifyrepo_c --mdtype=modules modules.yaml repodata/
+cd /root/; tar czvf /root/kolla_w_rpm_repo.tar.gz ./kolla_wallaby/
+echo "kolla rpm cache repo is built at /root/kolla_w_rpm_repo.tar.gz"
+
+#clean docker images
+#for i in `docker images |grep rpm_repo|awk '{print $3}'`;do docker rmi $i;done
+
+if [ -f /tmp/Dockerfile.j2 ];then
+   cp /root/Dockerfile.j2 /usr/local/share/kolla/docker/base/
+else
+  echo "no centos-binary-base dockerfile in /tmp to copy"
+  exit 1
+fi
+kolla-build -t binary --openstack-release wallaby --tag wallaby ^base
+docker  save kolla/centos-binary-base:wallaby > /root/centos-binary-base-w.tar
+
+mkdir /out
+cp /root/kolla_w_rpm_repo.tar.gz /out
+cp /root/centos-binary-base-w.tar /out
