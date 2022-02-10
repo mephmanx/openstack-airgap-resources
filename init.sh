@@ -81,7 +81,6 @@ fi
 kolla-build -t binary --openstack-release wallaby --tag wallaby ^base
 docker  save rpm_repo/kolla/centos-binary-base:wallaby > /root/centos-binary-base-w.tar
 
-mkdir /out
 cp /root/kolla_w_rpm_repo.tar.gz /out
 cp /root/centos-binary-base-w.tar /out
 
