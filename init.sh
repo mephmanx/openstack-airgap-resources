@@ -13,17 +13,17 @@ curl -sSL https://get.docker.com/ | sh
 yum install -y yum-utils
 #yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 #yum install -y docker-ce docker-ce-cli containerd.io
-if [ -f "/root/to_be_download_w.txt" ];then
-   echo "to_be_download_w.txt file exists, will use it to download rpms and skip container building step"
-   echo "rpm file name number in to_be_download_w.txt is "`cat /root/to_be_download_w.txt|wc -l`
-   mkdir -p /root/kolla_wallaby
-
-   docker run -u root -v /root/:/root/ -v /var/run/docker.sock:/var/run/docker.sock --rm -ti rpm_repo/kolla/centos-binary-base:wallaby bash -c "/root/download_rpm.sh"
-   #create local rpm repo
-   createrepo /root/kolla_wallaby/
-   cd /root/kolla_wallaby && repo2module -s stable  . modules.yaml && modifyrepo_c --mdtype=modules modules.yaml repodata/
-   exit 0
-fi
+#if [ -f "/root/to_be_download_w.txt" ];then
+#   echo "to_be_download_w.txt file exists, will use it to download rpms and skip container building step"
+#   echo "rpm file name number in to_be_download_w.txt is "`cat /root/to_be_download_w.txt|wc -l`
+#   mkdir -p /root/kolla_wallaby
+#
+#   docker run -u root -v /root/:/root/ -v /var/run/docker.sock:/var/run/docker.sock --rm -ti rpm_repo/kolla/centos-binary-base:wallaby bash -c "/root/download_rpm.sh"
+#   #create local rpm repo
+#   createrepo /root/kolla_wallaby/
+#   cd /root/kolla_wallaby && repo2module -s stable  . modules.yaml && modifyrepo_c --mdtype=modules modules.yaml repodata/
+#   exit 0
+#fi
 
 
 #build kolla-build offline rpms cache repo
@@ -46,7 +46,7 @@ sed -i "s/'python3-sqlalchemy-collectd',//" /usr/local/share/kolla/docker/openst
 #build images locally and get list of rpms that need to be cached.
 kolla-build --skip-existing -t binary --openstack-release wallaby --tag wallaby --registry rpm_repo barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openstack-base openvswitch  placement qdrouterd rabbitmq redis  swift telegraf trove
 
-rm -f /root/all_rpms_w.txt /root/w_rpm_list.txt /root/base_rpm.txt /root/to_be_download_w.txt
+#rm -f /root/all_rpms_w.txt /root/w_rpm_list.txt /root/base_rpm.txt /root/to_be_download_w.txt
 
 for i in `docker images |grep rpm_repo|grep -v centos-binary-base |awk '{print $3}'`; do
   docker run --rm -u root -v /root:/root -v /var/run/docker.sock:/var/run/docker.sock  $i bash -c "rpm -qa >>/root/all_rpms_w.txt";
