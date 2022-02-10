@@ -56,13 +56,13 @@ for i in $openstack_kolla_pkgs;do echo $i >>/root/all_rpms_w.txt;done
 
 cat /root/all_rpms_w.txt |sort |sort -u >/root/w_rpm_list.txt
 
-docker run --rm -u root -v /root/:/root/ -v /var/run/docker.sock:/var/run/docker.sock  kolla/centos-binary-base:wallaby bash -c "rpm -qa >/root/base_rpm.txt"
+docker run --rm -u root -v /root/:/tmp/ -v /var/run/docker.sock:/var/run/docker.sock  kolla/centos-binary-base:wallaby bash -c "rpm -qa >/tmp/base_rpm.txt"
 
 cat /root/w_rpm_list.txt /root/base_rpm.txt |sort |uniq -u >/root/to_be_download_w.txt
 
 mkdir -p /root/kolla_wallaby
 
-docker run -u root -v /root/:/root/ -v /var/run/docker.sock:/var/run/docker.sock --rm  kolla/centos-binary-base:wallaby bash -c "/root/download_rpms.sh"
+docker run -u root -v /root/:/tmp/ -v /var/run/docker.sock:/var/run/docker.sock --rm  kolla/centos-binary-base:wallaby bash -c "/tmp/download_rpms.sh"
 #create local rpm repo
 createrepo /root/kolla_wallaby/
 cd /root/kolla_wallaby && repo2module -s stable  . modules.yaml && modifyrepo_c --mdtype=modules modules.yaml repodata/
