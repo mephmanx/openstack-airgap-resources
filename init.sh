@@ -1,7 +1,6 @@
 #!/bin/bash
 
 #build kolla-build offline rpms cache repo
-mkdir /out
 mkdir /trans-out
 openstack_kolla_pkgs="openstack-kolla git-core less libedit openssh openssh-clients python-oslo-i18n-lang python3-GitPython python3-babel python3-debtcollector python3-docker python3-funcsigs python3-gitdb python3-importlib-metadata python3-jinja2  python3-markupsafe  python3-netaddr python3-oslo-config python3-oslo-i18n python3-pbr  python3-pytz python3-rfc3986 python3-smmap python3-stevedore python3-websocket-client python3-wrapt python3-zipp"
 #install repo build tools
@@ -31,7 +30,7 @@ cat /out/w_rpm_list.txt /out/base_rpm.txt |sort |uniq -u >/out/to_be_download_w.
 
 mkdir -p /out/kolla_wallaby
 
-cp /root/download_rpms.sh /otu
+cp /root/download_rpms.sh /out
 docker run -u root -v /out:/out -v /var/run/docker.sock:/var/run/docker.sock --rm  kolla/centos-binary-base:wallaby bash -c "/root/download_rpms.sh"
 #create local rpm repo
 createrepo /out/kolla_wallaby/
