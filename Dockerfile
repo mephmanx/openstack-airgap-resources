@@ -5,7 +5,7 @@ COPY init.sh /out
 RUN chmod 777 /out/init.sh
 COPY download_rpms.sh /out
 RUN chmod 777 /out/download_rpms.sh
-COPY Dockerfile.j2 /root
+COPY Dockerfile.j2 /out
 RUN chmod 777 /out/Dockerfile.j2
 
 RUN yum install -y modulemd-tools yum-utils epel-release python3 git curl yum-utils
