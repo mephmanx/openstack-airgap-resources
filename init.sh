@@ -47,9 +47,9 @@ else
   exit 1
 fi
 kolla-build -t binary --openstack-release wallaby --tag wallaby ^base
-docker save -v /var/run/docker.sock:/var/run/docker.sock kolla/centos-binary-base:wallaby > /out/centos-binary-base-w.tar
+docker save -u root -v /out:/out -v /var/run/docker.sock:/var/run/docker.sock kolla/centos-binary-base:wallaby > /out/centos-binary-base-w.tar
 
-python3 -m pip remove kolla
+python3 -m pip uninstall -y kolla
 
 ls -al /out/file-out
 ls -al /out
