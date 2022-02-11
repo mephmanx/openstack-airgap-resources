@@ -3,8 +3,8 @@ MAINTAINER mephmanx@gmail.com
 RUN mkdir /out
 COPY init.sh /root
 RUN chmod 777 /root/init.sh
-COPY download_rpms.sh /out
-RUN chmod 777 /out/download_rpms.sh
+COPY download_rpms.sh /root
+RUN chmod 777 /root/download_rpms.sh
 COPY Dockerfile.j2 /out
 RUN chmod 777 /out/Dockerfile.j2
 
