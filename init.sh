@@ -76,7 +76,7 @@ else
   exit 1
 fi
 kolla-build -t binary --openstack-release wallaby --tag wallaby ^base
-docker  save kolla/centos-binary-base:wallaby > /out/centos-binary-base-w.tar
+docker -v /var/run/docker.sock:/var/run/docker.sock  save kolla/centos-binary-base:wallaby > /out/centos-binary-base-w.tar
 
 ls -al /root
 ls -al /out
