@@ -7,10 +7,8 @@
 #done
 
 yum install -y modulemd-tools yum-utils epel-release python3 git curl yum-utils
-#curl --unix-socket /var/run/docker.sock http://localhost/version
 curl -sSL https://get.docker.com/ | sh
-#yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-#yum install -y docker-ce docker-ce-cli containerd.io
+
 #if [ -f "/root/to_be_download_w.txt" ];then
 #   echo "to_be_download_w.txt file exists, will use it to download rpms and skip container building step"
 #   echo "rpm file name number in to_be_download_w.txt is "`cat /root/to_be_download_w.txt|wc -l`
@@ -31,8 +29,6 @@ openstack_kolla_pkgs="openstack-kolla git-core less libedit openssh openssh-clie
 
 # install kolla wallaby
 python3 -m pip install kolla
-#yum install -y centos-release-openstack-wallaby && yum makecache
-#yum install -y openstack-kolla
 
 #fix centos 8 ceph issue
 sed -e '447s!^$!RUN sed -e "s/#baseurl/baseurl/" -e "s/mirrorlist/#mirrorlist/" -e "s/mirror.*.org/vault.centos.org/" -i /etc/yum.repos.d/CentOS-Ceph-Nautilus.repo!' -i /usr/local/share/kolla/docker/base/Dockerfile.j2
@@ -46,24 +42,24 @@ kolla-build --skip-existing -t binary --openstack-release wallaby --tag wallaby 
 #rm -f /root/all_rpms_w.txt /root/w_rpm_list.txt /root/base_rpm.txt /root/to_be_download_w.txt
 
 for i in `docker images |grep rpm_repo|grep -v centos-binary-base |awk '{print $3}'`; do
-  docker run --rm -u root -v /root:/root -v /var/run/docker.sock:/var/run/docker.sock  $i bash -c "rpm -qa >>/root/all_rpms_w.txt";
+  docker run --rm -u root -v /out/file-work:/root -v /var/run/docker.sock:/var/run/docker.sock  $i bash -c "rpm -qa >>/root/all_rpms_w.txt";
 done
 #add openstack kolla rpms to cache repo
-for i in $openstack_kolla_pkgs;do echo $i >>/root/all_rpms_w.txt;done
+for i in $openstack_kolla_pkgs;do echo $i >>/out/file-work/all_rpms_w.txt;done
 
-cat /root/all_rpms_w.txt |sort |sort -u >/root/w_rpm_list.txt
+cat /out/file-work/all_rpms_w.txt |sort |sort -u >/out/file-work/w_rpm_list.txt
 
-docker run --rm -u root -v /root:/root -v /var/run/docker.sock:/var/run/docker.sock  kolla/centos-binary-base:wallaby bash -c "rpm -qa >/root/base_rpm.txt"
+docker run --rm -u root -v /out/file-work:/root -v /var/run/docker.sock:/var/run/docker.sock  kolla/centos-binary-base:wallaby bash -c "rpm -qa >/root/base_rpm.txt"
 
-cat /root/w_rpm_list.txt /root/base_rpm.txt |sort |uniq -u >/root/to_be_download_w.txt
+cat /out/file-work/w_rpm_list.txt /out/file-work/base_rpm.txt |sort |uniq -u >/out/file-work/to_be_download_w.txt
 
-mkdir -p /root/kolla_wallaby
+mkdir -p /out/file-work/kolla_wallaby
 
-docker run -u root -v /root:/root -v /var/run/docker.sock:/var/run/docker.sock --rm  kolla/centos-binary-base:wallaby bash -c "/root/download_rpms.sh"
+docker run -u root -v /out/file-work:/root -v /var/run/docker.sock:/var/run/docker.sock --rm  kolla/centos-binary-base:wallaby bash -c "/root/download_rpms.sh"
 #create local rpm repo
-createrepo /root/kolla_wallaby/
-cd /root/kolla_wallaby && repo2module -s stable  . modules.yaml && modifyrepo_c --mdtype=modules modules.yaml repodata/
-cd /root/; tar czvf /out/kolla_w_rpm_repo.tar.gz ./kolla_wallaby/
+createrepo /out/file-work/kolla_wallaby/
+cd /out/file-work/kolla_wallaby && repo2module -s stable  . modules.yaml && modifyrepo_c --mdtype=modules modules.yaml repodata/
+cd /out/file-work/; tar czvf /out/kolla_w_rpm_repo.tar.gz ./kolla_wallaby/
 echo "kolla rpm cache repo is built at /root/kolla_w_rpm_repo.tar.gz"
 
 #clean docker images
@@ -76,7 +72,7 @@ else
   exit 1
 fi
 kolla-build -t binary --openstack-release wallaby --tag wallaby ^base
-docker -v /var/run/docker.sock:/var/run/docker.sock  save kolla/centos-binary-base:wallaby > /out/centos-binary-base-w.tar
+docker save -v /var/run/docker.sock:/var/run/docker.sock kolla/centos-binary-base:wallaby > /out/centos-binary-base-w.tar
 
 ls -al /root
 ls -al /out
