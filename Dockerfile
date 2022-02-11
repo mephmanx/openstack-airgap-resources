@@ -1,5 +1,6 @@
 FROM tgagor/centos-stream
 MAINTAINER mephmanx@gmail.com
+RUN mkdir /out
 COPY init.sh /out
 RUN chmod 777 /out/init.sh
 COPY download_rpms.sh /out
