@@ -6,11 +6,9 @@
 #  sed -e "s/#baseurl/baseurl/" -e "s/mirrorlist/#mirrorlist/" -e "s/mirror.*.org/vault.centos.org/" -i /etc/yum.repos.d/$repo
 #done
 
-yum install -y modulemd-tools yum-utils epel-release
-yum install -y python3 git curl
+yum install -y modulemd-tools yum-utils epel-release python3 git curl yum-utils
 #curl --unix-socket /var/run/docker.sock http://localhost/version
 curl -sSL https://get.docker.com/ | sh
-yum install -y yum-utils
 #yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 #yum install -y docker-ce docker-ce-cli containerd.io
 #if [ -f "/root/to_be_download_w.txt" ];then
@@ -30,7 +28,6 @@ yum install -y yum-utils
 
 openstack_kolla_pkgs="openstack-kolla git-core less libedit openssh openssh-clients python-oslo-i18n-lang python3-GitPython python3-babel python3-debtcollector python3-docker python3-funcsigs python3-gitdb python3-importlib-metadata python3-jinja2  python3-markupsafe  python3-netaddr python3-oslo-config python3-oslo-i18n python3-pbr  python3-pytz python3-rfc3986 python3-smmap python3-stevedore python3-websocket-client python3-wrapt python3-zipp"
 #install repo build tools
-yum install -y modulemd-tools yum-utils
 
 # install kolla wallaby
 python3 -m pip install kolla
@@ -56,13 +53,13 @@ for i in $openstack_kolla_pkgs;do echo $i >>/root/all_rpms_w.txt;done
 
 cat /root/all_rpms_w.txt |sort |sort -u >/root/w_rpm_list.txt
 
-docker run --rm -u root -v /root/:/tmp/ -v /var/run/docker.sock:/var/run/docker.sock  kolla/centos-binary-base:wallaby bash -c "rpm -qa >/tmp/base_rpm.txt"
+docker run --rm -u root -v /root:/root -v /var/run/docker.sock:/var/run/docker.sock  kolla/centos-binary-base:wallaby bash -c "rpm -qa >/root/base_rpm.txt"
 
 cat /root/w_rpm_list.txt /root/base_rpm.txt |sort |uniq -u >/root/to_be_download_w.txt
 
 mkdir -p /root/kolla_wallaby
 
-docker run -u root -v /root/:/tmp/ -v /var/run/docker.sock:/var/run/docker.sock --rm  kolla/centos-binary-base:wallaby bash -c "/tmp/download_rpms.sh"
+docker run -u root -v /root:/root -v /var/run/docker.sock:/var/run/docker.sock --rm  kolla/centos-binary-base:wallaby bash -c "/root/download_rpms.sh"
 #create local rpm repo
 createrepo /root/kolla_wallaby/
 cd /root/kolla_wallaby && repo2module -s stable  . modules.yaml && modifyrepo_c --mdtype=modules modules.yaml repodata/
