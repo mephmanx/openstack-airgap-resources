@@ -6,8 +6,7 @@
 #  sed -e "s/#baseurl/baseurl/" -e "s/mirrorlist/#mirrorlist/" -e "s/mirror.*.org/vault.centos.org/" -i /etc/yum.repos.d/$repo
 #done
 
-yum install -y modulemd-tools yum-utils epel-release python3 git curl yum-utils
-curl -sSL https://get.docker.com/ | sh
+
 
 #if [ -f "/root/to_be_download_w.txt" ];then
 #   echo "to_be_download_w.txt file exists, will use it to download rpms and skip container building step"
