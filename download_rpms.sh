@@ -10,11 +10,11 @@ dnf config-manager --enable centos-ceph-pacific --enable centos-nfv-openvswitch 
 
 dnf module enable mod_auth_openidc -y
 
-mkdir -p /root/kolla_wallaby
+mkdir -p /out/kolla_wallaby
 
-cd /root/kolla_wallaby
+cd /out/kolla_wallaby
 
-for i in `cat /root/to_be_download_w.txt`;do yumdownloader $i;done
+for i in `cat /out/to_be_download_w.txt`;do yumdownloader $i;done
 
 dnf config-manager --enable epel
 yumdownloader pv python3-boto3
