@@ -30,7 +30,7 @@ cat /out/w_rpm_list.txt /out/base_rpm.txt |sort |uniq -u >/out/to_be_download_w.
 
 mkdir -p /out/kolla_wallaby
 cp /root/download_rpms.sh /out
-docker run -u root -v /out:/root -v /var/run/docker.sock:/var/run/docker.sock --rm  rpm_repo/kolla/centos-binary-base:wallaby bash -c "/root/download_rpms.sh"
+docker run -u root -v /out:/out -v /var/run/docker.sock:/var/run/docker.sock --rm  rpm_repo/kolla/centos-binary-base:wallaby bash -c "/out/download_rpms.sh"
 #create local rpm repo
 createrepo /out/kolla_wallaby/
 cd /out/kolla_wallaby && repo2module -s stable  . modules.yaml && modifyrepo_c --mdtype=modules modules.yaml repodata/
