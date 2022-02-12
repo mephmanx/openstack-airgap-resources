@@ -9,7 +9,7 @@ openstack_kolla_pkgs="openstack-kolla git-core less libedit openssh openssh-clie
 sed -e '447s!^$!RUN sed -e "s/#baseurl/baseurl/" -e "s/mirrorlist/#mirrorlist/" -e "s/mirror.*.org/vault.centos.org/" -i /etc/yum.repos.d/CentOS-Ceph-Nautilus.repo!' -i /usr/local/share/kolla/docker/base/Dockerfile.j2
 
 #fix centos 8 rpm install issue on openstack-base image
-sed -i "s/'python3-sqlalchemy-collectd',//" /usr/local/share/kolla/docker/openstack-base/Dockerfile.j2
+sed -i "s/'python3-sqlalchemy-collectd',//" /usr/local/share/kolla/docker/openstack-base/Dockerfdocker ile.j2
 
 #build images locally and get list of rpms that need to be cached.
 kolla-build --skip-existing -t binary --openstack-release wallaby --tag wallaby --registry rpm_repo barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openstack-base openvswitch  placement qdrouterd rabbitmq redis  swift telegraf trove
@@ -24,13 +24,13 @@ for i in $openstack_kolla_pkgs;do echo $i >>/out/all_rpms_w.txt;done
 
 cat /out/all_rpms_w.txt |sort |sort -u >/out/w_rpm_list.txt
 
-docker run --rm -u root -v /out:/out -v /var/run/docker.sock:/var/run/docker.sock  kolla/centos-binary-base:wallaby bash -c "rpm -qa >/out/base_rpm.txt"
+docker run --rm -u root -v /out:/out -v /var/run/docker.sock:/var/run/docker.sock  rpm_repo/kolla/centos-binary-base:wallaby bash -c "rpm -qa >/out/base_rpm.txt"
 
 cat /out/w_rpm_list.txt /out/base_rpm.txt |sort |uniq -u >/out/to_be_download_w.txt
 
 mkdir -p /out/kolla_wallaby
 cp /root/download_rpms.sh /out
-docker run -u root -v /out:/root -v /var/run/docker.sock:/var/run/docker.sock --rm  kolla/centos-binary-base:wallaby bash -c "ls -al /root; /root/download_rpms.sh"
+docker run -u root -v /out:/root -v /var/run/docker.sock:/var/run/docker.sock --rm  rpm_repo/kolla/centos-binary-base:wallaby bash -c "/root/download_rpms.sh"
 #create local rpm repo
 createrepo /out/kolla_wallaby/
 cd /out/kolla_wallaby && repo2module -s stable  . modules.yaml && modifyrepo_c --mdtype=modules modules.yaml repodata/
