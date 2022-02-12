@@ -9,7 +9,7 @@ openstack_kolla_pkgs="openstack-kolla git-core less libedit openssh openssh-clie
 sed -e '447s!^$!RUN sed -e "s/#baseurl/baseurl/" -e "s/mirrorlist/#mirrorlist/" -e "s/mirror.*.org/vault.centos.org/" -i /etc/yum.repos.d/CentOS-Ceph-Nautilus.repo!' -i /usr/local/share/kolla/docker/base/Dockerfile.j2
 
 #fix centos 8 rpm install issue on openstack-base image
-sed -i "s/'python3-sqlalchemy-collectd',//" /usr/local/share/kolla/docker/openstack-base/Dockerfdocker ile.j2
+sed -i "s/'python3-sqlalchemy-collectd',//" /usr/local/share/kolla/docker/openstack-base/Dockerfile.j2
 
 #build images locally and get list of rpms that need to be cached.
 kolla-build --skip-existing -t binary --openstack-release wallaby --tag wallaby --registry rpm_repo barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openstack-base openvswitch  placement qdrouterd rabbitmq redis  swift telegraf trove
