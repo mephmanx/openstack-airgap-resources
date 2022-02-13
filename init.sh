@@ -13,8 +13,6 @@ sed -i "s/'python3-sqlalchemy-collectd',//" /usr/local/share/kolla/docker/openst
 #build images locally and get list of rpms that need to be cached.
 kolla-build --skip-existing -t binary --openstack-release wallaby --tag wallaby --registry rpm_repo barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openstack-base openvswitch  placement qdrouterd rabbitmq redis  swift telegraf trove
 
-#rm -f /root/all_rpms_w.txt /root/w_rpm_list.txt /root/base_rpm.txt /root/to_be_download_w.txt
-
 for i in `docker images |grep rpm_repo|grep -v centos-binary-base |awk '{print $3}'`; do
   docker run --rm -u root -v /out:/out -v /var/run/docker.sock:/var/run/docker.sock  $i bash -c "rpm -qa >>/out/all_rpms_w.txt";
 done
