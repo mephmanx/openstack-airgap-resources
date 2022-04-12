@@ -45,3 +45,4 @@ else
 fi
 kolla-build -t binary --openstack-release wallaby --tag wallaby ^base
 docker save rpm_repo/kolla/centos-binary-base:wallaby > /out/centos-binary-base-w.tar
+cp /root/globals.yml /out/globals.yml
