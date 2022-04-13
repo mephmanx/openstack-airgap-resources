@@ -1,5 +1,6 @@
 #!/bin/bash
 
+OPENSTACK_VERSION=$1
 #this script need to be put on /root directory on build server
 #this script is to be executed inside of centos-binary-base image to download rpms
 
@@ -10,11 +11,11 @@ dnf config-manager --enable centos-ceph-pacific --enable centos-nfv-openvswitch 
 
 dnf module enable mod_auth_openidc -y
 
-mkdir -p /out/kolla_wallaby
+mkdir -p /out/kolla_"$OPENSTACK_VERSION"
 
-cd /out/kolla_wallaby
+cd /out/kolla_"$OPENSTACK_VERSION"
 
-for i in `cat /out/to_be_download_w.txt`;do yumdownloader $i;done
+for i in `cat /out/to_be_download_"$OPENSTACK_VERSION".txt`;do yumdownloader $i;done
 
 dnf config-manager --enable epel
 yumdownloader pv python3-boto3
