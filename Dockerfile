@@ -3,8 +3,8 @@ MAINTAINER mephmanx@gmail.com
 RUN mkdir /out
 COPY globals.yml /out
 RUN chmod 777 /out/globals.yml
-COPY init.sh /root
-RUN chmod 777 /root/init.sh
+COPY init.sh /
+RUN chmod 777 /init.sh
 COPY download_rpms.sh /root
 RUN chmod 777 /root/download_rpms.sh
 COPY Dockerfile.j2 /root
@@ -16,4 +16,4 @@ RUN yum install -y modulemd-tools yum-utils epel-release python3 git curl yum-ut
 RUN curl -sSL https://get.docker.com/ | sh
 RUN python3 -m pip install kolla
 
-ENTRYPOINT ["/bin/bash", "-c", "./root/init.sh"]
+ENTRYPOINT ["./init.sh"]
