@@ -16,5 +16,4 @@ RUN yum install -y modulemd-tools yum-utils epel-release python3 git curl yum-ut
 RUN curl -sSL https://get.docker.com/ | sh
 RUN python3 -m pip install kolla
 
-ENTRYPOINT ["/bin/bash", "-c"]
-CMD ["./root/init.sh"]
+ENTRYPOINT ["/bin/bash", "-c", "./root/init.sh"]
