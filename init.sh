@@ -38,7 +38,7 @@ cd /out; tar czvf /out/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz ./kolla_"$OPEN
 echo "kolla rpm cache repo is built at /root/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz"
 
 #clean docker images
-#docker rmi $(docker images | grep 'rpm_repo')
+docker rmi $(docker images | grep 'rpm_repo')
 
 if [ -f /root/Dockerfile.j2 ];then
    cp /root/Dockerfile.j2 /usr/local/share/kolla/docker/base/
