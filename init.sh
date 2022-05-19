@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 OPENSTACK_VERSION=$1
 echo "Building resources using openstack version -> $OPENSTACK_VERSION"
 sleep 5
