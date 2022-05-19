@@ -1,5 +1,6 @@
 #!/bin/bash
 
+exec 1>/tmp/openstack-build.log 2>&1
 set -x
 
 OPENSTACK_VERSION=$1
