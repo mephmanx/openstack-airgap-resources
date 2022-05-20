@@ -12,8 +12,9 @@ RUN chmod 777 /root/Dockerfile.j2
 COPY globals.yml /root
 RUN chmod 777 /root/globals.yml
 
-RUN yum install -y modulemd-tools yum-utils epel-release python3 git curl yum-utils
+RUN yum install -y modulemd-tools yum-utils epel-release python3 git curl yum-utils centos-release-openstack-wallaby
 RUN curl -sSL https://get.docker.com/ | sh
-RUN python3 -m pip install kolla
+RUN yum install -y openstack-kolla
+
 
 ENTRYPOINT ["./init.sh"]
