@@ -39,7 +39,7 @@ echo "kolla rpm cache repo is built at /root/kolla_"$OPENSTACK_VERSION"_rpm_repo
 for i in `docker images |grep centos-binary-base|awk '{print $3}'`;do docker rmi $i;done
 
 if [ -f /root/Dockerfile.j2 ];then
-   cp /root/Dockerfile.j2 /usr/local/share/kolla/docker/base/
+   cp /root/Dockerfile.j2 /usr/share/kolla/docker/base/
 else
   echo "no centos-binary-base dockerfile in /tmp to copy"
   exit 1
