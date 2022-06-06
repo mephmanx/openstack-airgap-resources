@@ -5,7 +5,7 @@ set -x
 
 OPENSTACK_VERSION=$1
 
-yum install -y modulemd-tools yum-utils epel-release python3 git curl yum-utils centos-release-openstack-$OPENSTACK_VERSION
+yum install -y wget modulemd-tools yum-utils epel-release python3 git curl yum-utils centos-release-openstack-$OPENSTACK_VERSION
 yum install -y openstack-kolla
 
 echo "Building resources using openstack version -> $OPENSTACK_VERSION"
