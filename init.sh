@@ -36,6 +36,14 @@ docker run -u root -v /out:/out -v /var/run/docker.sock:/var/run/docker.sock --r
 #create local rpm repo
 createrepo /out/kolla_"$OPENSTACK_VERSION"/
 cd /out/kolla_"$OPENSTACK_VERSION" && repo2module -s stable  . modules.yaml && modifyrepo_c --mdtype=modules modules.yaml repodata/
+
+if [[ "$OPENSTACK_VERSION" == "wallaby" ]]; then
+  ####  objects needed by exporter images, versions are specific to openstack versions
+  wget -O /out/kolla_"$OPENSTACK_VERSION"/prometheus_memcached_exporter.tar.gz https://github.com/prometheus/memcached_exporter/releases/download/v0.6.0/memcached_exporter-0.6.0.linux-amd64.tar.gz
+  wget -O /out/kolla_"$OPENSTACK_VERSION"/prometheus_haproxy_exporter.tar.gz https://github.com/prometheus/haproxy_exporter/releases/download/v0.10.0/haproxy_exporter-0.10.0.linux-amd64.tar.gz
+  wget -O /out/kolla_"$OPENSTACK_VERSION"/prometheus_elasticsearch_exporter.tar.gz https://github.com/prometheus-community/elasticsearch_exporter/releases/download/v1.1.0/elasticsearch_exporter-1.1.0.linux-amd64.tar.gz
+fi
+
 cd /out; tar czvf /out/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz ./kolla_"$OPENSTACK_VERSION"/
 echo "kolla rpm cache repo is built at /root/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz"
 
