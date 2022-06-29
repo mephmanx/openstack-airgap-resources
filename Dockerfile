@@ -1,4 +1,4 @@
-FROM tgagor/centos-stream
+FROM quay.io/centos/centos:stream8
 MAINTAINER mephmanx@gmail.com
 RUN mkdir /out
 COPY globals.yml /out
