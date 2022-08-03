@@ -6,8 +6,11 @@ OPENSTACK_VERSION=$1
 
 yum install -y modulemd-tools yum-utils
 
-
-dnf config-manager --enable centos-ceph-nautilus --enable centos-nfv-openvswitch --enable centos-advanced-virtualization --enable powertools --enable rabbitmq_rabbitmq-server --enable rabbitmq_rabbitmq-erlang --enable centos-opstools --enable influxdb --enable elasticsearch-kibana-logstash-7.x --enable grafana --enable ha
+if [ $OPENSTACK_VERSION == "wallaby" ];then
+   dnf config-manager --enable centos-ceph-nautilus --enable centos-nfv-openvswitch --enable centos-advanced-virtualization --enable powertools --enable rabbitmq_rabbitmq-server --enable rabbitmq_rabbitmq-erlang --enable centos-opstools --enable influxdb --enable elasticsearch-kibana-logstash-7.x --enable grafana --enable ha
+elif [ $OPENSTACK_VERSION == "xena" ];then
+    dnf config-manager --enable centos-ceph-pacific --enable centos-nfv-openvswitch --enable centos-advanced-virtualization --enable powertools --enable rabbitmq_rabbitmq-server --enable rabbitmq_rabbitmq-erlang --enable centos-opstools --enable influxdb --enable elasticsearch-kibana-logstash-7.x --enable grafana --enable ha
+fi
 
 dnf module enable mod_auth_openidc -y
 
