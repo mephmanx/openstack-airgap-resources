@@ -66,6 +66,9 @@ else
   echo "no centos-binary-base dockerfile in /tmp to copy"
   exit 1
 fi
+if [[ "$OPENSTACK_VERSION" == "xena" ]]; then
+  pip3 install janja2==3.0.3
+fi
 kolla-build -t binary --openstack-release "$OPENSTACK_VERSION" --tag "$OPENSTACK_VERSION" ^base
 docker save kolla/centos-binary-base:"$OPENSTACK_VERSION" > /out/centos-binary-base-"$OPENSTACK_VERSION".tar
 cp /root/globals.yml /out/globals.yml
