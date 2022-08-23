@@ -18,7 +18,9 @@ sleep 5
 #build kolla-build offline rpms cache repo
 openstack_kolla_pkgs="openstack-kolla git-core less libedit openssh openssh-clients python-oslo-i18n-lang python3-GitPython python3-babel python3-debtcollector python3-docker python3-funcsigs python3-gitdb python3-importlib-metadata python3-jinja2  python3-markupsafe  python3-netaddr python3-oslo-config python3-oslo-i18n python3-pbr  python3-pytz python3-rfc3986 python3-smmap python3-stevedore python3-websocket-client python3-wrapt python3-zipp"
 #install repo build tools
-
+if [[ "$OPENSTACK_VERSION" == "xena" ]]; then
+  pip3 install janja2==3.0.3
+fi
 
 #build images locally and get list of rpms that need to be cached.
 kolla-build --skip-existing -t binary --openstack-release "$OPENSTACK_VERSION" --tag "$OPENSTACK_VERSION" --registry rpm_repo barbican ceilometer cinder cron designate dnsmasq elasticsearch etcd glance gnocchi grafana hacluster haproxy heat horizon influxdb iscsid  keepalived keystone kibana logstash magnum  manila mariadb memcached multipathd neutron nova octavia openstack-base openvswitch  placement qdrouterd rabbitmq redis  swift telegraf trove murano panko
@@ -65,9 +67,6 @@ if [ -f /root/Dockerfile.j2 ];then
 else
   echo "no centos-binary-base dockerfile in /tmp to copy"
   exit 1
-fi
-if [[ "$OPENSTACK_VERSION" == "xena" ]]; then
-  pip3 install janja2==3.0.3
 fi
 kolla-build -t binary --openstack-release "$OPENSTACK_VERSION" --tag "$OPENSTACK_VERSION" ^base
 docker save kolla/centos-binary-base:"$OPENSTACK_VERSION" > /out/centos-binary-base-"$OPENSTACK_VERSION".tar
