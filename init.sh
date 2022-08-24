@@ -20,6 +20,7 @@ openstack_kolla_pkgs="openstack-kolla git-core less libedit openssh openssh-clie
 #install repo build tools
 if [[ "$OPENSTACK_VERSION" == "xena" ]]; then
   pip3 install jinja2==3.0.3
+  sed -i 's#centos8-amd64#centos/8/x86_64/#' /usr/share/kolla/docker/base/mariadb.repo
 fi
 
 #build images locally and get list of rpms that need to be cached.
