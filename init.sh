@@ -72,4 +72,5 @@ else
 fi
 kolla-build -t binary --openstack-release "$OPENSTACK_VERSION" --tag "$OPENSTACK_VERSION" ^base
 docker save kolla/centos-binary-base:"$OPENSTACK_VERSION" > /out/centos-binary-base-"$OPENSTACK_VERSION".tar
+sed -i "s/{OPENSTACK_VERSION}/$OPENSTACK_VERSION/g" /root/globals.yml
 cp /root/globals.yml /out/globals.yml
