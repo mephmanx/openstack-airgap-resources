@@ -189,7 +189,7 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 ] %}
 
 {% set base_centos_yum_repo_packages = [
-    'centos-release-openstack-wallaby',
+    'centos-release-openstack-{OPENSTACK_VERSION}',
     'centos-release-opstools',
     'epel-release',
 ] %}
@@ -315,7 +315,7 @@ COPY sources.list /etc/apt/sources.list.d/kolla-custom.list
 
 RUN apt update \
  && apt install -y --no-install-recommends extrepo \
- && extrepo enable openstack_wallaby \
+ && extrepo enable openstack_{OPENSTACK_VERSION} \
  && apt purge -y extrepo \
  && apt --purge autoremove -y \
  && apt clean

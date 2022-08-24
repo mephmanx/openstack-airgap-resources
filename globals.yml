@@ -34,7 +34,7 @@
 kolla_install_type: "binary"
 
 # Do not override this unless you know what you are doing.
-openstack_release: "wallaby"
+openstack_release: "{OPENSTACK_VERSION}"
 
 # Docker image tag used by default.
 #openstack_tag: "{{ openstack_release ~ openstack_tag_suffix }}"
