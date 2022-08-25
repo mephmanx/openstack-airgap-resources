@@ -203,7 +203,7 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 
 {% set base_centos_yum_repos_to_disable = [
     'centos-advanced-virtualization',
-    'centos-ceph-nautilus',
+    'centos-ceph-{CEPH_VERSION}',
     'centos-nfv-openvswitch',
     'centos-opstools',
     'centos-rabbitmq-38',

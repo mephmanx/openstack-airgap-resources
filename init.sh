@@ -65,6 +65,13 @@ for i in `docker images |grep centos-binary-base|awk '{print $3}'`;do docker rmi
 
 if [ -f /root/Dockerfile.j2 ];then
   sed -i "s/{OPENSTACK_VERSION}/$OPENSTACK_VERSION/g" /root/Dockerfile.j2
+  if [ "$OPENSTACK_VERSION" == "wallaby" ]; then
+    sed -i "s/{CEPH_VERSION}/nautilus/g" /root/Dockerfile.j2
+  fi
+  if [ "$OPENSTACK_VERSION" == "xena" ]; then
+    sed -i "s/{CEPH_VERSION}/pacific/g" /root/Dockerfile.j2
+  fi
+
   cp /root/Dockerfile.j2 /usr/share/kolla/docker/base/
 else
   echo "no centos-binary-base dockerfile in /tmp to copy"
