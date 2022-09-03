@@ -45,6 +45,7 @@ cat /out/"$OPENSTACK_VERSION"_rpm_list.txt /out/base_rpm.txt |sort |uniq -u >/ou
 mkdir -p /out/kolla_"$OPENSTACK_VERSION"
 cp /root/download_rpms.sh /out
 docker run -u root -v /out:/out -v /var/run/docker.sock:/var/run/docker.sock --rm  rpm_repo/kolla/centos-binary-base:"$OPENSTACK_VERSION" bash -c "/out/download_rpms.sh $OPENSTACK_VERSION"
+rm -rf /out/download_rpms.sh
 #create local rpm repo
 createrepo /out/kolla_"$OPENSTACK_VERSION"/
 cd /out/kolla_"$OPENSTACK_VERSION" && repo2module -s stable  . modules.yaml && modifyrepo_c --mdtype=modules modules.yaml repodata/
