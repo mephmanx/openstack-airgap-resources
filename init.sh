@@ -10,7 +10,7 @@ fi
 
 OPENSTACK_VERSION=$1
 
-yum install -y wget modulemd-tools yum-utils epel-release python3 git curl yum-utils centos-release-openstack-$OPENSTACK_VERSION
+yum install -y wget modulemd-tools yum-utils epel-release python3 git curl yum-utils centos-release-openstack-"$OPENSTACK_VERSION"
 yum install -y openstack-kolla
 
 echo "Building resources using openstack version -> $OPENSTACK_VERSION"
@@ -62,8 +62,8 @@ elif [[ "$OPENSTACK_VERSION" == "xena" ]]; then
   wget -O /out/kolla_"$OPENSTACK_VERSION"/clustercheck.sh  https://src.fedoraproject.org/rpms/mariadb/raw/10.3/f/clustercheck.sh
 fi
 
-cd /out; tar czvf /out/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz ./kolla_"$OPENSTACK_VERSION"/
-echo "kolla rpm cache repo is built at /root/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz"
+cd /out || exit; tar czvf /out/kolla_"$OPENSTACK_VERSION"_rpm_repo.tar.gz ./kolla_"$OPENSTACK_VERSION"/
+echo "kolla rpm cache repo is built at /root/kolla_${OPENSTACK_VERSION}_rpm_repo.tar.gz"
 
 #clean docker base images
 for i in `docker images |grep centos-binary-base|awk '{print $3}'`;do docker rmi $i;done
