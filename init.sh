@@ -1,6 +1,7 @@
 #!/bin/bash
 
-exec 1>/out/openstack-build.log 2>&1
+rm -rf /var/log/openstack-build.log
+exec 1>/var/log/openstack-build.log 2>&1
 set -x
 
 # clear environment for legacy installation
