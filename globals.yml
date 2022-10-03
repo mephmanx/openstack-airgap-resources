@@ -299,7 +299,7 @@ enable_barbican: "yes"
 enable_ceilometer: "yes"
 #enable_ceilometer_ipmi: "no"
 #enable_cells: "no"
-enable_central_logging: "yes"
+enable_central_logging: "no"
 enable_chrony: "no"
 enable_cinder: "yes"
 enable_cinder_backup: "no"
@@ -840,3 +840,11 @@ octavia_amp_network_cidr: "{LB_NETWORK}.0/24"
 # Magnum options
 #######################
 enable_cluster_user_trust: true
+
+###
+## Logging Options
+##
+#######
+
+elasticsearch_address: "{{ kolla_internal_vip_address }}"
+elasticsearch_protocol: "{{ internal_protocol }}"
